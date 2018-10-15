@@ -1,0 +1,38 @@
+node('master') {
+	stage('Check Docker') {
+		step {
+			script {
+				
+			}
+		}
+	}
+	stage('Build Image') {
+		step {
+			script{
+				sh 'oc new-build --strategy=docker --name <name> \--code <git-link>'
+			}
+		}
+	}
+	stage('Run Image') {
+		step {
+			script{
+				sh 'oc start-build <name>'
+			}
+		}
+	}
+	stage('Run Project') {
+		step {
+			script{
+				sh ''
+				sh 'oc new-app <app name> --name blog'
+				sh 'oc rollout status dc/blog'
+				sh 'oc get pods --selector app=blog'
+			}
+	}
+	stage('Run Tests') {
+		step {
+			script{
+				sh ''
+			}
+	}
+}
